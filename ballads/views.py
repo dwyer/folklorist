@@ -78,17 +78,12 @@ class SearchPage(webapp.RequestHandler):
               % (self.query, self.page+1))
         self.pages = ' &middot; '.join(self.pages)
         # love!
-        start = offset + 1
-        finish = offset + self.limit
-        info = ('Results %s - %s of %s for <b>%s</b>.' % 
-            (start, finish, self.num_results, self.query))
-      else:
-        error = 'No results for <b>%s</b>.' % (self.query)
+        self.start = offset + 1
+        self.finish = offset + self.limit
     #self.write('search.html')
     path = os.path.join(TEMPLATES_DIR, 'search.html')
     context = {'self': self, 'vols': alphabet(), 'error': error, 'info': info}
     self.response.out.write(template.render(path, context))
-    
 
 
 class BalladPage(_RequestHandler):

@@ -5,12 +5,13 @@
     <div style="text-align:center;">{{ vols|safe }}</div>
   {% endif %}
 
-  {% if error %}
-    <div class="box error">{{ error|safe }}</div>
-  {% endif %}
-
-  {% if info %}
-    <div class="box info">{{ info|safe }}</div>
+  {% if self.results %}
+    <div class="box info">
+      Results {{ self.start }} - {{ self.finish }} of
+      {{ self.num_results }} for {{ self.query }}.
+    </div>
+  {% else %}
+    <div class="box error">No results for <b>{{ self.query }}</b>.</div>
   {% endif %}
   
   <div style="float:right">
