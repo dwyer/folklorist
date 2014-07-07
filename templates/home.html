@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <meta content="Folklorist is an online collection of folk songs." name="description">
+{% endblock %}
+
+{% block body %}
+  <div style="text-align:center">{{vols|safe}}</div>
+  
+  <h2>About Folklorist</h2>
+  <p>
+    Folklorist is a database of folk songs that aggregates data from 
+    The Traditional Ballad Index and The Digital Tradition databases.
+    It is coded in
+        <a href="http://python.org/" target="_blank">Python</a>
+    on the
+        <a href="http://code.google.com/appengine/"
+            target="_blank">Google App Engine</a>
+    framework and will be made open-source just as soon as I get around 
+    to it.
+  </p>
+  
+  <h3>Copyright information</h3>
+  
+  <p>
+    <span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">Folkorist</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Casey Dwyer</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>. 
+  </p>
+  
+  <p>
+    <a href="http://www.csufresno.edu/folklore/BalladIndexTOC.html"
+        target="_blank">The Traditional Ballad Index</a>
+    is copyright &copy;2008 by Robert B. Waltz and David G. Engle.
+  </p>
+  
+  <p>
+    The Digital Tradition is copyright 
+    <a href="http://mudcat.org" target="_blank">The Mudcat Cafe</a>.
+  </p>
+{% endblock %}

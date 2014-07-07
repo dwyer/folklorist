@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block meta %}
+  <meta name="description" content="{{self.ballad.description|escape}}" />
+{% endblock %}
+
+{% block body %}
+
+  {% if self.error %}
+    <div class="box error">{{ self.error }}</div>
+  {% endif %}
+
+  {% if self.ballad.title %}
+    <div><h2>&#8220;{{ self.ballad.title }}&#8221;</h2></div>
+  {% endif %}
+  
+  {% if self.ballad.alternate_titles %}
+    <div>
+      <b>Alternate titles</b>:
+      &#8220;{{ self.ballad.alternate_titles|join:"&#8221;; &#8220;" }}&#8221;
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.author %}
+    <div><b>Author</b>: {{ self.ballad.author }}</div>
+  {% endif %}
+  
+  {% if self.ballad.earliest_date %}
+    <div><b>Earliest date</b>: {{ self.ballad.earliest_date }}</div>
+  {% endif %}
+  
+  {% if self.ballad.keywords %}
+    <div>
+      <b>Keywords</b>:
+      {% for keyword in self.ballad.keywords %}
+        <a href="/search?q=keyword:{{ keyword }}">{{ keyword }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.found_in %}
+    <div><b>Found in</b>: {{ self.ballad.found_in }}</div>
+  {% endif %}
+  
+  {% if self.ballad.description %}
+    <div>
+      <h3>Description</h3>
+      <p>{{ self.ballad.description|linebreaks }}</p>
+    </div>
+  {% endif %}
+  
+  {% if self.supptrad %}
+    <div>
+      <h3>Supplemental text</h3>
+      <div class="box">
+       <pre>{{ self.supptrad.text }}</pre>
+      </div>
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.scorex %}
+    <div>
+      <h3>Words and music</h3>
+      <div class="box">
+        <div style="text-align:center;"><img src="{{ self.ballad.score }}" alt="{{ self.ballad.title }}" /></div>
+        <div>{{ self.ballad.lyrics|linebreaks }}</div>
+        <div style="font-size:small;text-align:right;">Words and music courtesy of <a href="http://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
+      </div>
+  {% endif %}
+  
+  {% if self.ballad.long_description %}
+    <div>
+      <h3>Long description</h3>
+      <p>{{ self.ballad.long_description|linebreaks }}</p>
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.notes %}
+    <div>
+      <h3>Notes</h3>
+      {% for line in self.ballad.notes.splitlines %}
+        <p>{{line}}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.historical_references %}
+    <div>
+      <h3>Historical references</h3>
+      <ul>
+        {% for item in self.ballad.historical_references %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.same_tune %}
+    <div>
+      <h3>Same tune</h3>
+      <ul>
+        {% for item in self.ballad.same_tune %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.cross_references %}
+    <div>
+      <h3>Cross references</h3>
+      <ul>
+        {% for item in self.ballad.cross_references_ex %}
+          <li>{{ item|safe }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.broadsides %}
+    <div>
+      <h3>Broadsides</h3>
+      <ul>
+        {% for item in self.ballad.broadsides %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.recordings %}
+    <div>
+      <h3>Recordings</h3>
+      <ul>
+        {% for item in self.ballad.recordings %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  
+  {% if self.ballad.references %}
+    <div>
+      <h3>References</h3>
+      <ol>
+        {% for item in self.ballad.references %}
+          <li>{{ item }}</li>
+        {% endfor %}
+        <li>BI, {{ self.ballad.file }}</li>
+      </ol>
+    </div>
+  {% endif %}
+  
+<center>
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7316784774567539";
+/* Leaderboard */
+google_ad_slot = "9870461787";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</center>
+
+{% endblock %}
