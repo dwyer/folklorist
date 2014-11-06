@@ -20,9 +20,6 @@ TEMPLATES_DIR = 'templates'
 class _RequestHandler(webapp.RequestHandler):
   template_dir = 'templates'
   
-  def __init__(self):
-    webapp.RequestHandler.__init__(self)
-  
   def write(self, filename='base.html'):
     path = os.path.join(self.template_dir, filename)
     self.response.out.write(template.render(path, dict(self=self)))

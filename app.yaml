@@ -1,7 +1,8 @@
 application: trad
 version: 206
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: false
 
 builtins:
 - appstats: on
@@ -25,3 +26,7 @@ handlers:
 
 - url: .*
   script: main.py
+
+libraries:
+- name: django
+  version: '1.2'
