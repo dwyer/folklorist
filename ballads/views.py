@@ -3,7 +3,7 @@ import os
 import urllib
 
 from google.appengine.api import memcache
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
@@ -54,14 +54,13 @@ class SearchPage(webapp.RequestHandler):
     if self.query:
       self.query = self.query.strip()
       self.title = 'Search for %s - Folklorist' % self.query
-      self.results = BalladIndex.all(keys_only=True)
+      self.results = BalladIndex.query()
       for word in query_to_words(self.query):
-        self.results.filter('index =', word.lower())
+        self.results = self.results.filter(BalladIndex.index == word.lower())
       #self.num_results = '?'
       self.num_results = self.results.count()
       offset = (self.page-1) * self.limit
-      self.results = self.results.fetch(self.limit, offset)
-      self.results = db.get(self.results)
+      self.results = self.results.fetch(self.limit, offset=offset)
       #self.results = [child.parent() for child in self.results]
       
       if self.results:
@@ -87,18 +86,18 @@ class BalladPage(_RequestHandler):
   @redirector
   def get(self, title):
     title = urllib.unquote(title.replace('_', ' '))
-    query = BalladName.all(keys_only=True).filter('title =', title).get()
+    query = BalladName.query(BalladName.title==title).get(keys_only=True)
     # get ballad
     self.ballad = None
     if query:
       key = query.parent()
-      self.ballad = Ballad.get(key)
+      self.ballad = key.get()
     # got ballad
     if self.ballad:
       self.title = self.ballad.title()
-      self.supptrad = SuppTradFile.get_by_key_name(self.ballad.file, self.ballad)
+      self.supptrad = SuppTradFile.get_by_id(self.ballad.file, self.ballad.key)
     else: # handle broken links
-      self.ballad = Ballad.all().filter('name =', title).get()
+      self.ballad = Ballad.query().filter(Ballad.name==title).get()
       if self.ballad:
         self.redirect(self.ballad.url(), permanent=True)
       else:
@@ -113,10 +112,10 @@ class SitemapPage(webapp.RequestHandler):
     memkey = 'sitemap_%s' % start
     output = memcache.get(memkey)
     if output is None:
-      list = BalladName.all().order('name')
-      list.filter('name >=', start)
-      list.filter('name <', start+chr(127))
-      output = template.render('templates/sitemap.xml', dict(list=list))
+      end = start + chr(127)
+      q = BalladName.query(BalladName.name >= start, BalladName.name < end)
+      q = q.order(BalladName.name)
+      output = template.render('templates/sitemap.xml', dict(list=q))
       memcache.set(memkey, output)
     self.response.headers['content-type'] = 'text/xml'
     self.response.out.write(output)

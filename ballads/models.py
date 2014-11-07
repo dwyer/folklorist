@@ -1,27 +1,27 @@
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 
 def _title_to_url(title):
   return '/song/%s' % title.replace(' ', '_').replace('"', '%22').replace('&', '%26').replace(';', '%3B').replace('?', '%3F') 
 
 
-class Ballad(db.Model):
-  name = db.StringProperty() # indexed
-  description = db.StringProperty(multiline=True) # indexed
-  author = db.StringProperty() # indexed
-  earliest_date = db.StringProperty(multiline=True) # indexed
-  long_description = db.TextProperty()
-  keywords = db.StringListProperty(default=[]) # indexed
-  historical_references = db.ListProperty(db.Text, default=[])
-  found_in = db.StringProperty() # indexed
-  references = db.ListProperty(db.Text, default=[])
-  recordings = db.ListProperty(db.Text, default=[])
-  broadsides = db.ListProperty(db.Text, default=[])
-  cross_references = db.StringListProperty(default=[]) # indexed
-  same_tune = db.ListProperty(db.Text, default=[])
-  alternate_titles = db.StringListProperty(default=[]) # indexed
-  notes = db.TextProperty()
-  file = db.StringProperty() # indexed
+class Ballad(ndb.Model):
+  name = ndb.StringProperty() # indexed
+  description = ndb.StringProperty() # indexed
+  author = ndb.StringProperty() # indexed
+  earliest_date = ndb.StringProperty() # indexed
+  long_description = ndb.TextProperty()
+  keywords = ndb.StringProperty(repeated=True) # indexed
+  historical_references = ndb.TextProperty(repeated=True)
+  found_in = ndb.StringProperty() # indexed
+  references = ndb.TextProperty(repeated=True)
+  recordings = ndb.TextProperty(repeated=True)
+  broadsides = ndb.TextProperty(repeated=True)
+  cross_references = ndb.StringProperty(repeated=True) # indexed
+  same_tune = ndb.TextProperty(repeated=True)
+  alternate_titles = ndb.StringProperty(repeated=True) # indexed
+  notes = ndb.TextProperty()
+  file = ndb.StringProperty() # indexed
   
   def url(self):
     return '/song/%s' % self.title().replace(' ', '_').replace('"', '%22').replace(';', '%3B')
@@ -58,7 +58,7 @@ class Ballad(db.Model):
       if m:
         title = m.group('title')
         #url = _title_to_url(title)
-        ballad_name = BalladName.all().filter('title =', title).get()
+        ballad_name = BalladName.query(BalladName.title==title).get()
         if ballad_name:
           url = ballad_name.url()
           s = s.replace(title, '<a href="%s">%s</a>' % (url, title))
@@ -102,17 +102,17 @@ class Ballad(db.Model):
         return
 
 
-class BalladName(db.Model):
-  name = db.StringProperty(required=True)
-  title = db.StringProperty(required=True)
+class BalladName(ndb.Model):
+  name = ndb.StringProperty(required=True)
+  title = ndb.StringProperty(required=True)
   
   def url(self):
     return '/song/%s' % self.title.replace(' ', '_').replace('"', '%22').replace('&', '%26').replace(';', '%3B').replace('?', '%3F')
 
 
-class BalladIndex(db.Model):
-  name = db.StringProperty(required=True)
-  index = db.StringListProperty(required=True)
+class BalladIndex(ndb.Model):
+  name = ndb.StringProperty(required=True)
+  index = ndb.StringProperty(repeated=True)
   
   def title(self):
     import re
@@ -128,7 +128,7 @@ class BalladIndex(db.Model):
     return '/song/%s' % self.title().replace(' ', '_').replace('"', '%22').replace('&', '%26').replace(';', '%3B').replace('?', '%3F')
 
 
-class SuppTradFile(db.Model):
-  name = db.StringProperty(required=True)
-  text = db.TextProperty(required=True)
-  file = db.StringProperty(required=True)
+class SuppTradFile(ndb.Model):
+  name = ndb.StringProperty(required=True)
+  text = ndb.TextProperty(required=True)
+  file = ndb.StringProperty(required=True)
