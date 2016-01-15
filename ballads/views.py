@@ -19,11 +19,11 @@ TEMPLATES_DIR = 'templates'
 
 class _RequestHandler(webapp.RequestHandler):
   template_dir = 'templates'
-  
+
   def write(self, filename='base.html'):
     path = os.path.join(self.template_dir, filename)
     self.response.out.write(template.render(path, dict(self=self)))
-  
+
   def not_found(self):
     self.error(404)
     self.message = '404: Page not found.'
@@ -41,16 +41,16 @@ class HomePage(webapp.RequestHandler):
 
 class SearchPage(webapp.RequestHandler):
   limit = 30
-  
+
   @redirector
   def get(self):
     self.query = self.request.get('q')
     self.page = int(self.request.get('p', 1))
     self.start = int(self.request.get('start', 1))
-    
+
     info = None
     error = None
-    
+
     if self.query:
       self.query = self.query.strip()
       self.title = 'Search for %s - Folklorist' % self.query
@@ -63,7 +63,7 @@ class SearchPage(webapp.RequestHandler):
       self.results = self.results.fetch(self.limit, offset)
       self.results = db.get(self.results)
       #self.results = [child.parent() for child in self.results]
-      
+
       if self.results:
         # pagination
         self.pages = []
