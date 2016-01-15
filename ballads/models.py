@@ -1,3 +1,7 @@
+import re
+
+from urllib2 import urlopen
+
 from google.appengine.ext import db
 
 
@@ -27,7 +31,6 @@ class Ballad(db.Model):
     return '/song/%s' % self.title().replace(' ', '_').replace('"', '%22').replace(';', '%3B')
   
   def title(self):
-    import re
     title = self.name
     title = re.sub(r' \[.*\]$', '', title)
     # articles
@@ -37,7 +40,6 @@ class Ballad(db.Model):
     return title
   
   def references_ex(self):
-    import re
     res = [
         (r'^DT(?: \d+)?, (?:(\w+)+\*?\s?)+$', r'<u>\1</u>'),
         (r'^Roud #(\d+)$', r'<a href="http://library.efdss.org/cgi-bin/query.cgi?query=\1&field=20&output=List&length=5" target="_blank">\1</a>'),
@@ -52,7 +54,6 @@ class Ballad(db.Model):
       yield s
   
   def cross_references_ex(self):
-    import re
     for s in self.cross_references:
       m = re.match(r'^cf. "(?P<title>.+)"', s)
       if m:
@@ -65,7 +66,6 @@ class Ballad(db.Model):
       yield s
   
   def index(self):
-    import re
     title = self.title().lower()
     title = re.sub(r'[-/]', ' ', title)
     title = re.sub(r'[^\w\s\']', '', title)
@@ -78,7 +78,6 @@ class Ballad(db.Model):
     return words
   
   def score(self):
-    import re
     prog = re.compile('^DT, (.*)\*$')
     for ref in self.references:
       match = prog.match(ref)
@@ -86,12 +85,10 @@ class Ballad(db.Model):
         return 'http://sniff.numachi.com/scores/%s.png' % match.group(1)
   
   def lyrics(self):
-    import re
     prog = re.compile(r'^DT, (.*)\*$')
     for ref in self.references:
       match = prog.match(ref)
       if match:
-        from urllib2 import urlopen
         url = 'http://sniff.numachi.com/pages/ti%s.html' % match.group(1)
         file = urlopen(url)
         text = file.read()
@@ -115,7 +112,6 @@ class BalladIndex(db.Model):
   index = db.StringListProperty(required=True)
   
   def title(self):
-    import re
     title = self.name
     title = re.sub(r' \[.*\]$', '', title)
     # articles
