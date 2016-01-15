@@ -6,7 +6,7 @@ from google.appengine.ext import db
 
 
 def _title_to_url(title):
-  return '/song/%s' % title.replace(' ', '_').replace('"', '%22').replace('&', '%26').replace(';', '%3B').replace('?', '%3F') 
+  return '/song/%s' % title.replace(' ', '_').replace('"', '%22').replace('&', '%26').replace(';', '%3B').replace('?', '%3F')
 
 
 class Ballad(db.Model):
@@ -26,10 +26,10 @@ class Ballad(db.Model):
   alternate_titles = db.StringListProperty(default=[]) # indexed
   notes = db.TextProperty()
   file = db.StringProperty() # indexed
-  
+
   def url(self):
     return '/song/%s' % self.title().replace(' ', '_').replace('"', '%22').replace(';', '%3B')
-  
+
   def title(self):
     title = self.name
     title = re.sub(r' \[.*\]$', '', title)
@@ -38,7 +38,7 @@ class Ballad(db.Model):
     title = re.sub(r'^(.*), (%s)$' % articles, r'\2 \1', title)
     title = re.sub(r'^(.*), (%s) (\(.*\))$' % articles, r'\2 \1 \3', title)
     return title
-  
+
   def references_ex(self):
     res = [
         (r'^DT(?: \d+)?, (?:(\w+)+\*?\s?)+$', r'<u>\1</u>'),
@@ -52,7 +52,7 @@ class Ballad(db.Model):
             s = re.sub('(%s)' % g, y, s)
           break
       yield s
-  
+
   def cross_references_ex(self):
     for s in self.cross_references:
       m = re.match(r'^cf. "(?P<title>.+)"', s)
@@ -64,7 +64,7 @@ class Ballad(db.Model):
           url = ballad_name.url()
           s = s.replace(title, '<a href="%s">%s</a>' % (url, title))
       yield s
-  
+
   def index(self):
     title = self.title().lower()
     title = re.sub(r'[-/]', ' ', title)
@@ -76,14 +76,14 @@ class Ballad(db.Model):
     words.append('startswith:%s' % self.name[0].lower())
     words.extend(['keyword:%s' % w.lower() for w in self.keywords])
     return words
-  
+
   def score(self):
     prog = re.compile('^DT, (.*)\*$')
     for ref in self.references:
       match = prog.match(ref)
       if match:
         return 'http://sniff.numachi.com/scores/%s.png' % match.group(1)
-  
+
   def lyrics(self):
     prog = re.compile(r'^DT, (.*)\*$')
     for ref in self.references:
@@ -102,7 +102,7 @@ class Ballad(db.Model):
 class BalladName(db.Model):
   name = db.StringProperty(required=True)
   title = db.StringProperty(required=True)
-  
+
   def url(self):
     return '/song/%s' % self.title.replace(' ', '_').replace('"', '%22').replace('&', '%26').replace(';', '%3B').replace('?', '%3F')
 
@@ -110,7 +110,7 @@ class BalladName(db.Model):
 class BalladIndex(db.Model):
   name = db.StringProperty(required=True)
   index = db.StringListProperty(required=True)
-  
+
   def title(self):
     title = self.name
     title = re.sub(r' \[.*\]$', '', title)
@@ -119,7 +119,7 @@ class BalladIndex(db.Model):
     title = re.sub(r'^(.*), (%s)$' % articles, r'\2 \1', title)
     title = re.sub(r'^(.*), (%s) (\(.*\))$' % articles, r'\2 \1 \3', title)
     return title
-  
+
   def url(self):
     return '/song/%s' % self.title().replace(' ', '_').replace('"', '%22').replace('&', '%26').replace(';', '%3B').replace('?', '%3F')
 
