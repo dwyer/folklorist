@@ -1,161 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    {% block meta %}{% endblock %}
-    <title>{% if self.title %}{{ self.title }} - {% endif %}Folklorist</title>
-    
-    <style type="text/css">
-      body {
-        background-color: #f8f8f8;
-        color: #000;
-      }
-      
-      a {
-        color: inherit;
-      }
-      
-      div.container {
-        -moz-box-shadow: 0px 0px 16px #bbb;
-        -moz-border-radius: 8px;
-        -webkit-box-shadow: 0px 0px 16px #bbb;
-        -webkit-border-radius: 8px;
-        background-color: #fff;
-        border: 1px solid #bbb;
-        margin: auto;
-        padding: 16px;
-        width: 728px;
-        height: 100%;
-      }
-      
-      div.container div.header span.logo {
-        float: left;
-        font-size: xx-large;
-        text-shadow: 2px 2px 2px #bbb;
-        font-weight: bold;
-      }
-      
-      div.container div.header span.logo a {
-        border-style: none;
-      }
-      
-      div.container div.header span.search {
-        float: right;
-      }
-      
-      div.container div.header span.search #search {
-        width: 20em;
-      }
-      
-      div.container div.form #text {
-        font-family: inherit;
-        width: 100%;
-      }
-      
-      div.container div.box {
-        -moz-border-radius: 4px;
-        -moz-box-shadow: 4px 4px 4px #eee;
-        -webkit-border-radius: 4px;
-        -webkit-box-shadow: 4px 4px 4px #eee;
-        background-color: #fff;
-        border: 1px solid #ccf;
-        border-radius: 4px;
-        margin: 8px auto;
-        padding: 8px;
-      }
-      
-      div.container div.info {
-        background-color: #bfb;
-        border-color: #8b8;
-        text-align: center;
-      }
-      
-      div.container div.warning {
-        background-color: #ffb;
-        border-color: #bb8;
-        text-align: center;
-      }
-      
-      div.container div.error {
-        background-color: #fbb;
-        border-color: #b88;
-        text-align: center;
-      }
-      
-      div.container div.box div.dim {
-        color: #888;
-        font-size: small;
-      }
-      
-      div.container div.box span.reply {
-        cursor: pointer;
-      }
-      
-      div.copyright {
-        font-size: x-small;
-        text-align: center;
-      }
-    </style>
-    
-    {% block head %}
-    {% endblock %}
-  </head>
-  <body>
-    <div class="container">
-      <!-- header -->
-      <div class="header">
-        <!-- logo -->
-        <span class="logo"><a href="/"><img src="/static/logo.png" alt="Folklorist" border="0" /></a></span>
-        <!-- search bar -->
-        <span class="search">
-          <form action="/search" method="get">
-            <input type="text" name="q" value="{{ self.query }}" id="search" />
-            <input type="submit" value="Search" />
-          </form>
-          
-          <!-- google custom search -->
-          <!--
-          <form action="http://www.google.com/cse" id="cse-search-box">
-            <div>
-              <input type="hidden" name="cx" value="partner-pub-7316784774567539:5577010324" />
-              <input type="hidden" name="ie" value="UTF-8" />
-              <input type="text" name="q" />
-              <input type="submit" name="sa" value="Search" />
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block meta %}{% endblock %}
+        <title>{% if self.title %}{{ self.title }} - {% endif %}Folklorist</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> -->
+                <!--     <span class="sr-only">Toggle navigation</span> -->
+                <!--     <span class="icon-bar"></span> -->
+                <!--     <span class="icon-bar"></span> -->
+                <!--     <span class="icon-bar"></span> -->
+                <!-- </button> -->
+                <a class="navbar-brand" href="/"><img src="/static/logo.png" alt="Folklorist" border="0" /></a>
             </div>
-          </form>
+            <div id="navbar" class="navbar-collapse collapse">
+                <form action="/search" method="get" class="navbar-form navbar-right" role="form">
+                    <div class="form-group">
+                        <input type="text" name="q" value="{{ self.query }}" id="search" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-success">Search</button>
+                </form>
+            </div><!--/.navbar-collapse -->
+        </div>
+        </nav>
 
-          <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
-          -->
+        <div class="container">
+            {% block body %}
+            {% endblock %}
 
-        </span>
-      </div>
-      
-      <div style="clear: both;"></div>
-      
-      {% block body %}
-      {% endblock %}
-      
-      <hr size="1" style="border-color:#ddd;" />
-      
-      <!-- copyright -->
-      <div class="copyright">
-        
-        <a href="http://www.csufresno.edu/folklore/BalladIndexTOC.html"
-        target="_blank">The Traditional Ballad Index</a> is copyright &copy;2008
-        by Robert B. Waltz and David G. Engle.
-        
-        The Digital Tradition is copyright <a href="http://mudcat.org" 
-        target="_blank">The Mudcat Cafe</a>.
-    </div>
-    
-    <!-- analytics -->
-    <script type="text/javascript">
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-      var pageTracker = _gat._getTracker("UA-5928294-1");
-      pageTracker._trackPageview();
-    </script>
-  </body>
+            <!-- copyright -->
+            <footer>
+            <a href="http://www.csufresno.edu/folklore/BalladIndexTOC.html" target="_blank"> The Traditional Ballad Index</a>
+            is copyright &copy; 2008 &ndash; 2014 by Robert B. Waltz and David G. Engle. The Digital Tradition is copyright
+            <a href="http://mudcat.org" target="_blank">The Mudcat Cafe</a>. 
+            </footer>
+            <!-- analytics -->
+        </div>
+        <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            var pageTracker = _gat._getTracker("UA-5928294-1");
+            pageTracker._trackPageview();
+        </script>
+        <!-- Latest compiled and minified JavaScript -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+    </body>
 </html>
