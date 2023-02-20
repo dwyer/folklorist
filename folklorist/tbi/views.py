@@ -37,12 +37,15 @@ def search_view(request):
             # pagination
             pages = []
             if page > 1:
-              pages.append('<a href="/search?q=%s&p=%d">&lt; Previous</a>'
-                  % (query, page-1))
+                pages.append((
+                    '/search?q=%s&p=%d' % (query, page-1),
+                    'Previous',
+                ))
             if len(results) == limit:
-              pages.append('<a href="/search?q=%s&p=%d">Next &gt;</a>'
-                  % (query, page+1))
-            pages = ' &middot; '.join(pages)
+                pages.append((
+                    "/search?q=%s&p=%d" % (query, page+1),
+                    'Next',
+                ))
             # love!
             start = offset + 1
             finish = offset + limit

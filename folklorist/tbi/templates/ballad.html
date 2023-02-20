@@ -6,150 +6,185 @@
 
 {% block body %}
 
-  {% if error %}
-    <div class="box error">{{ error }}</div>
-  {% endif %}
+{% if error %}<div class="box error">{{ error }}</div>{% endif %}
 
-  {% if ballad.title %}
-    <div><h2>&#8220;{{ ballad.title }}&#8221;</h2></div>
-  {% endif %}
-  
-  {% if ballad.alternate_titles %}
-    <div>
-      <b>Alternate titles</b>:
-      &#8220;{{ ballad.alternate_titles|join:"&#8221;; &#8220;" }}&#8221;
+<div class="row g-5">
+  <div class="col-md-8">
+
+    {% if ballad.title %}
+    <h2 class="blog-post-title mb-1">&#8220;{{ ballad.title }}&#8221;</h2>
+    {% endif %}
+
+    {% comment %}
+    <p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
+    {% endcomment %}
+
+    {% if ballad.description %}
+    <h3>Description</h3>
+    <p>{{ ballad.description|linebreaks }}</p>
+    {% endif %}
+
+    {% if supptrad %}
+    <h3>Supplemental text</h3>
+    <div class="box">
+      <pre>{{ supptrad.text }}</pre>
     </div>
-  {% endif %}
-  
-  {% if ballad.author %}
-    <div><b>Author</b>: {{ ballad.author }}</div>
-  {% endif %}
-  
-  {% if ballad.earliest_date %}
-    <div><b>Earliest date</b>: {{ ballad.earliest_date }}</div>
-  {% endif %}
-  
-  {% if ballad.keywords %}
-    <div>
-      <b>Keywords</b>:
-      {% for keyword in ballad.keywords %}
-        <a href="/search?q=keyword:{{ keyword }}">{{ keyword }}</a>
+    {% endif %}
+
+    {% if ballad.scorex %}
+    <h3>Words and music</h3>
+    <div class="box">
+      <div style="text-align:center;"><img src="{{ ballad.score }}" alt="{{ ballad.title }}" /></div>
+      <div>{{ ballad.lyrics|linebreaks }}</div>
+      <div style="font-size:small;text-align:right;">Words and music courtesy of <a href="http://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
+    </div>
+    {% endif %}
+
+    {% if ballad.long_description %}
+    <h3>Long description</h3>
+    <p>{{ ballad.long_description|linebreaks }}</p>
+    {% endif %}
+
+    {% if ballad.notes %}
+    <h3>Notes</h3>
+    {% for line in ballad.notes.splitlines %}
+    <p>{{line}}</p>
+    {% endfor %}
+    {% endif %}
+
+    {% if ballad.historical_references %}
+    <h3>Historical references</h3>
+    <ul>
+      {% for item in ballad.historical_references %}
+      <li>{{ item }}</li>
       {% endfor %}
-    </div>
-  {% endif %}
-  
-  {% if ballad.found_in %}
-    <div><b>Found in</b>: {{ ballad.found_in }}</div>
-  {% endif %}
-  
-  {% if ballad.description %}
-    <div>
-      <h3>Description</h3>
-      <p>{{ ballad.description|linebreaks }}</p>
-    </div>
-  {% endif %}
-  
-  {% if supptrad %}
-    <div>
-      <h3>Supplemental text</h3>
-      <div class="box">
-       <pre>{{ supptrad.text }}</pre>
-      </div>
-    </div>
-  {% endif %}
-  
-  {% if ballad.scorex %}
-    <div>
-      <h3>Words and music</h3>
-      <div class="box">
-        <div style="text-align:center;"><img src="{{ ballad.score }}" alt="{{ ballad.title }}" /></div>
-        <div>{{ ballad.lyrics|linebreaks }}</div>
-        <div style="font-size:small;text-align:right;">Words and music courtesy of <a href="http://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
-      </div>
-  {% endif %}
-  
-  {% if ballad.long_description %}
-    <div>
-      <h3>Long description</h3>
-      <p>{{ ballad.long_description|linebreaks }}</p>
-    </div>
-  {% endif %}
-  
-  {% if ballad.notes %}
-    <div>
-      <h3>Notes</h3>
-      {% for line in ballad.notes.splitlines %}
-        <p>{{line}}</p>
+    </ul>
+    {% endif %}
+
+    {% if ballad.same_tune %}
+    <h3>Same tune</h3>
+    <ul>
+      {% for item in ballad.same_tune %}
+      <li>{{ item }}</li>
       {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if ballad.cross_references %}
+    <h3>Cross references</h3>
+    <ul>
+      {% for item in ballad.cross_references_ex %}
+      <li>{{ item|safe }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if ballad.broadsides %}
+    <h3>Broadsides</h3>
+    <ul>
+      {% for item in ballad.broadsides %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if ballad.recordings %}
+    <h3>Recordings</h3>
+    <ul>
+      {% for item in ballad.recordings %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if ballad.references %}
+    <h3>References</h3>
+    <ol>
+      {% for item in ballad.references %}
+      <li>{{ item }}</li>
+      {% endfor %}
+      <li>BI, {{ ballad.file }}</li>
+    </ol>
+    {% endif %}
+    <article class="blog-post">
+    </article>
+
+    <!-- <nav class="blog-pagination" aria-label="Pagination"> -->
+    <!--   <a class="btn btn-outline-primary rounded-pill" href="#">Older</a> -->
+    <!--   <a class="btn btn-outline-secondary rounded-pill disabled">Newer</a> -->
+    <!-- </nav> -->
+
+  </div>
+
+  <div class="col-md-4">
+    <div class="position-sticky" style="top: 2rem;">
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="fst-italic">About</h4>
+        <p class="mb-0">
+          {% if ballad.alternate_titles %}
+          <div>
+            Alternate titles:
+            &#8220;{{ ballad.alternate_titles|join:"&#8221;; &#8220;" }}&#8221;
+          </div>
+          {% endif %}
+
+          {% if ballad.author %}
+          <div>Author: {{ ballad.author }}</div>
+          {% endif %}
+
+          {% if ballad.earliest_date %}
+          <div>Earliest date: {{ ballad.earliest_date }}</div>
+          {% endif %}
+
+          {% if ballad.keywords %}
+          <div>
+            Keywords:
+            {% for keyword in ballad.keywords %}
+            <a href="/search?q=keyword:{{ keyword }}">{{ keyword }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if ballad.found_in %}
+          <div>Found in: {{ ballad.found_in }}</div>
+          {% endif %}
+
+        </p>
+      </div>
+
+      {% comment %}
+      <div class="p-4">
+        <h4 class="fst-italic">Archives</h4>
+        <ol class="list-unstyled mb-0">
+          <li><a href="#">March 2021</a></li>
+          <li><a href="#">February 2021</a></li>
+          <li><a href="#">January 2021</a></li>
+          <li><a href="#">December 2020</a></li>
+          <li><a href="#">November 2020</a></li>
+          <li><a href="#">October 2020</a></li>
+          <li><a href="#">September 2020</a></li>
+          <li><a href="#">August 2020</a></li>
+          <li><a href="#">July 2020</a></li>
+          <li><a href="#">June 2020</a></li>
+          <li><a href="#">May 2020</a></li>
+          <li><a href="#">April 2020</a></li>
+        </ol>
+      </div>
+      {% endcomment %}
+
+      {% comment %}
+      <div class="p-4">
+        <h4 class="fst-italic">Elsewhere</h4>
+        <ol class="list-unstyled">
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ol>
+      </div>
+      {% endcomment %}
     </div>
-  {% endif %}
-  
-  {% if ballad.historical_references %}
-    <div>
-      <h3>Historical references</h3>
-      <ul>
-        {% for item in ballad.historical_references %}
-          <li>{{ item }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-  
-  {% if ballad.same_tune %}
-    <div>
-      <h3>Same tune</h3>
-      <ul>
-        {% for item in ballad.same_tune %}
-          <li>{{ item }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-  
-  {% if ballad.cross_references %}
-    <div>
-      <h3>Cross references</h3>
-      <ul>
-        {% for item in ballad.cross_references_ex %}
-          <li>{{ item|safe }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-  
-  {% if ballad.broadsides %}
-    <div>
-      <h3>Broadsides</h3>
-      <ul>
-        {% for item in ballad.broadsides %}
-          <li>{{ item }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-  
-  {% if ballad.recordings %}
-    <div>
-      <h3>Recordings</h3>
-      <ul>
-        {% for item in ballad.recordings %}
-          <li>{{ item }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-  
-  {% if ballad.references %}
-    <div>
-      <h3>References</h3>
-      <ol>
-        {% for item in ballad.references %}
-          <li>{{ item }}</li>
-        {% endfor %}
-        <li>BI, {{ ballad.file }}</li>
-      </ol>
-    </div>
-  {% endif %}
+  </div>
+</div>
   
 <center>
 <script type="text/javascript"><!--
