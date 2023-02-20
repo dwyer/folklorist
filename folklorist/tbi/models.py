@@ -9,7 +9,7 @@ class IndexableCharField(models.CharField):
         super().__init__(*args, **kwargs)
 
 
-class BalladIndex(models.Model):
+class Ballad(models.Model):
     name = IndexableCharField()
     description = IndexableCharField()
     author = IndexableCharField()

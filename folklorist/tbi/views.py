@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 from ballads.hacks import query_to_words
 
-from .models import BalladIndex
+from .models import Ballad
 
 
 def word_to_Q(w):
@@ -35,7 +35,7 @@ def search_view(request):
     if query:
         query = query.strip()
         title = 'Search for %s - Folklorist' % query
-        results = BalladIndex.objects.all()
+        results = Ballad.objects.all()
         for word in query_to_words(query):
             results = results.filter(word_to_Q(word))
         num_results = results.count()
