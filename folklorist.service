@@ -1,0 +1,4 @@
+[Service]
+Environment="DJANGO_SETTINGS_MODULE=folklorist.settings_prod"
+WorkingDirectory=/home/ubuntu/folklorist/folklorist
+ExecStart=/home/ubuntu/folklorist/venv/bin/gunicorn --bind=127.0.0.1:8010 --threads=5 --workers=5 --timeout=900 folklorist.wsgi:application

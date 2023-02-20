@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'folklorist.dwyer.dev',
-    'folklorist.org',
 ]
 
 
