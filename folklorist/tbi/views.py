@@ -1,9 +1,12 @@
+from urllib.parse import unquote
+
+
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from ballads.hacks import query_to_words
 
-from .models import Ballad
+from .models import Ballad, BalladName, SuppTradFile
 
 
 def word_to_Q(w):
@@ -66,3 +69,20 @@ def search_view(request):
         'info': info,
     }
     return render(request, 'search.html', context)
+
+
+def ballad_view(request, encoded_title):
+    title = unquote(encoded_title.replace('_', ' '))
+    ballad_name = get_object_or_404(BalladName, title=title)
+    ballad = ballad_name.parent
+    title = ballad.title()
+    try:
+        supptrad = SuppTradFile.objects.get(parent=ballad)
+    except SuppTradFile.DoesNotExist:
+        supptrad = None
+    context = {
+        'title': title,
+        'supptrad': supptrad,
+        'ballad': ballad,
+    }
+    return render(request, 'ballad.html', context)

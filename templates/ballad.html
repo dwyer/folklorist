@@ -1,152 +1,152 @@
 {% extends "base.html" %}
 
 {% block meta %}
-  <meta name="description" content="{{self.ballad.description|escape}}" />
+  <meta name="description" content="{{ballad.description|escape}}" />
 {% endblock %}
 
 {% block body %}
 
-  {% if self.error %}
-    <div class="box error">{{ self.error }}</div>
+  {% if error %}
+    <div class="box error">{{ error }}</div>
   {% endif %}
 
-  {% if self.ballad.title %}
-    <div><h2>&#8220;{{ self.ballad.title }}&#8221;</h2></div>
+  {% if ballad.title %}
+    <div><h2>&#8220;{{ ballad.title }}&#8221;</h2></div>
   {% endif %}
   
-  {% if self.ballad.alternate_titles %}
+  {% if ballad.alternate_titles %}
     <div>
       <b>Alternate titles</b>:
-      &#8220;{{ self.ballad.alternate_titles|join:"&#8221;; &#8220;" }}&#8221;
+      &#8220;{{ ballad.alternate_titles|join:"&#8221;; &#8220;" }}&#8221;
     </div>
   {% endif %}
   
-  {% if self.ballad.author %}
-    <div><b>Author</b>: {{ self.ballad.author }}</div>
+  {% if ballad.author %}
+    <div><b>Author</b>: {{ ballad.author }}</div>
   {% endif %}
   
-  {% if self.ballad.earliest_date %}
-    <div><b>Earliest date</b>: {{ self.ballad.earliest_date }}</div>
+  {% if ballad.earliest_date %}
+    <div><b>Earliest date</b>: {{ ballad.earliest_date }}</div>
   {% endif %}
   
-  {% if self.ballad.keywords %}
+  {% if ballad.keywords %}
     <div>
       <b>Keywords</b>:
-      {% for keyword in self.ballad.keywords %}
+      {% for keyword in ballad.keywords %}
         <a href="/search?q=keyword:{{ keyword }}">{{ keyword }}</a>
       {% endfor %}
     </div>
   {% endif %}
   
-  {% if self.ballad.found_in %}
-    <div><b>Found in</b>: {{ self.ballad.found_in }}</div>
+  {% if ballad.found_in %}
+    <div><b>Found in</b>: {{ ballad.found_in }}</div>
   {% endif %}
   
-  {% if self.ballad.description %}
+  {% if ballad.description %}
     <div>
       <h3>Description</h3>
-      <p>{{ self.ballad.description|linebreaks }}</p>
+      <p>{{ ballad.description|linebreaks }}</p>
     </div>
   {% endif %}
   
-  {% if self.supptrad %}
+  {% if supptrad %}
     <div>
       <h3>Supplemental text</h3>
       <div class="box">
-       <pre>{{ self.supptrad.text }}</pre>
+       <pre>{{ supptrad.text }}</pre>
       </div>
     </div>
   {% endif %}
   
-  {% if self.ballad.scorex %}
+  {% if ballad.scorex %}
     <div>
       <h3>Words and music</h3>
       <div class="box">
-        <div style="text-align:center;"><img src="{{ self.ballad.score }}" alt="{{ self.ballad.title }}" /></div>
-        <div>{{ self.ballad.lyrics|linebreaks }}</div>
+        <div style="text-align:center;"><img src="{{ ballad.score }}" alt="{{ ballad.title }}" /></div>
+        <div>{{ ballad.lyrics|linebreaks }}</div>
         <div style="font-size:small;text-align:right;">Words and music courtesy of <a href="http://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
       </div>
   {% endif %}
   
-  {% if self.ballad.long_description %}
+  {% if ballad.long_description %}
     <div>
       <h3>Long description</h3>
-      <p>{{ self.ballad.long_description|linebreaks }}</p>
+      <p>{{ ballad.long_description|linebreaks }}</p>
     </div>
   {% endif %}
   
-  {% if self.ballad.notes %}
+  {% if ballad.notes %}
     <div>
       <h3>Notes</h3>
-      {% for line in self.ballad.notes.splitlines %}
+      {% for line in ballad.notes.splitlines %}
         <p>{{line}}</p>
       {% endfor %}
     </div>
   {% endif %}
   
-  {% if self.ballad.historical_references %}
+  {% if ballad.historical_references %}
     <div>
       <h3>Historical references</h3>
       <ul>
-        {% for item in self.ballad.historical_references %}
+        {% for item in ballad.historical_references %}
           <li>{{ item }}</li>
         {% endfor %}
       </ul>
     </div>
   {% endif %}
   
-  {% if self.ballad.same_tune %}
+  {% if ballad.same_tune %}
     <div>
       <h3>Same tune</h3>
       <ul>
-        {% for item in self.ballad.same_tune %}
+        {% for item in ballad.same_tune %}
           <li>{{ item }}</li>
         {% endfor %}
       </ul>
     </div>
   {% endif %}
   
-  {% if self.ballad.cross_references %}
+  {% if ballad.cross_references %}
     <div>
       <h3>Cross references</h3>
       <ul>
-        {% for item in self.ballad.cross_references_ex %}
+        {% for item in ballad.cross_references_ex %}
           <li>{{ item|safe }}</li>
         {% endfor %}
       </ul>
     </div>
   {% endif %}
   
-  {% if self.ballad.broadsides %}
+  {% if ballad.broadsides %}
     <div>
       <h3>Broadsides</h3>
       <ul>
-        {% for item in self.ballad.broadsides %}
+        {% for item in ballad.broadsides %}
           <li>{{ item }}</li>
         {% endfor %}
       </ul>
     </div>
   {% endif %}
   
-  {% if self.ballad.recordings %}
+  {% if ballad.recordings %}
     <div>
       <h3>Recordings</h3>
       <ul>
-        {% for item in self.ballad.recordings %}
+        {% for item in ballad.recordings %}
           <li>{{ item }}</li>
         {% endfor %}
       </ul>
     </div>
   {% endif %}
   
-  {% if self.ballad.references %}
+  {% if ballad.references %}
     <div>
       <h3>References</h3>
       <ol>
-        {% for item in self.ballad.references %}
+        {% for item in ballad.references %}
           <li>{{ item }}</li>
         {% endfor %}
-        <li>BI, {{ self.ballad.file }}</li>
+        <li>BI, {{ ballad.file }}</li>
       </ol>
     </div>
   {% endif %}

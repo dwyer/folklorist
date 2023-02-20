@@ -46,17 +46,20 @@ class Ballad(models.Model):
         return '/song/%s' % self.urlencoded_title()
 
 
-class BalladIndex(models.Model):
-    name = IndexableCharField(blank=False)
-    index = ArrayField(IndexableCharField())
-
-
 class BalladName(models.Model):
     name = IndexableCharField(blank=False)
     title = IndexableCharField(blank=False)
+    parent = models.ForeignKey(Ballad, on_delete=models.CASCADE, null=True)
+
+
+class BalladIndex(models.Model):
+    name = IndexableCharField(blank=False)
+    index = ArrayField(IndexableCharField())
+    parent = models.ForeignKey(BalladName, on_delete=models.CASCADE, null=True)
 
 
 class SuppTradFile(models.Model):
     name = IndexableCharField(blank=False)
     text = models.TextField(blank=False)
     file = IndexableCharField(blank=False)
+    parent = models.ForeignKey(Ballad, on_delete=models.CASCADE, null=True)

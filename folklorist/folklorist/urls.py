@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from tbi.views import index_view, search_view
+from tbi.views import ballad_view, index_view, search_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('song/<encoded_title>', ballad_view),
     path('search', search_view),
     path('', index_view),
 ]

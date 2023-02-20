@@ -20,23 +20,32 @@ models = {
     'SuppTradFile': SuppTradFile,
 }
 
-def visit(typ, obj):
+def visit(typ, obj, parent=None):
+    children = {}
     for model_name in models:
         try:
-            for pk, sub in obj.pop(model_name).items():
-                visit(model_name, sub)
+            children[model_name] = obj.pop(model_name)
         except KeyError:
             pass
     model = models[typ]
     if model and obj:
         try:
+            if parent:
+                obj['parent'] = parent
             instance = model(**obj)
             instance.save()
+            for key, val in children.items():
+                visit_all(key, val, parent=instance)
         except DataError:
             print(model)
             for key, val in obj.items():
                 print(key, len(val), val)
             raise
+
+
+def visit_all(typ, objs, parent=None):
+    for pk, obj in objs.items():
+        visit(typ, obj, parent=parent)
 
 
 for model in models.values():
@@ -49,5 +58,4 @@ with transaction.atomic():
         with open(path) as fp:
             data = json.load(fp)
         for typ, val in data.items():
-            for pk, val in val.items():
-                visit(typ, val)
+            visit_all(typ, val)
