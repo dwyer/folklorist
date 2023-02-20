@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{% for obj in list %}
   <url>
-    <loc>http://trad.appspot.com{{ obj.url }}</loc>
+    <loc>https://folklorist.org{{ obj.url }}</loc>
   </url>{% endfor %}
-</urlset> 
+</urlset>

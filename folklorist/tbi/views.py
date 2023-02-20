@@ -1,22 +1,11 @@
 from urllib.parse import unquote
 
-
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
 from ballads.hacks import query_to_words
 
-from .models import Ballad, BalladName, SuppTradFile
-
-
-def word_to_Q(w):
-    # TODO handle split error
-    kw, val = w.split(':')
-    if kw == 'startswith':
-        return Q(name__startswith=val)
-    elif kw == 'keyword':
-        return Q(keywords__contains=[val])
-    return None
+from .models import Ballad, BalladIndex, BalladName, SuppTradFile
 
 
 def index_view(request):
@@ -38,9 +27,9 @@ def search_view(request):
     if query:
         query = query.strip()
         title = 'Search for %s - Folklorist' % query
-        results = Ballad.objects.all()
-        for word in query_to_words(query):
-            results = results.filter(word_to_Q(word))
+        results = BalladIndex.objects.all()
+        words = query_to_words(query)
+        results = results.filter(index__contains=words)
         num_results = results.count()
         offset = (page-1) * limit
         results = results[offset:offset+limit]
@@ -75,14 +64,21 @@ def ballad_view(request, encoded_title):
     title = unquote(encoded_title.replace('_', ' '))
     ballad_name = get_object_or_404(BalladName, title=title)
     ballad = ballad_name.parent
-    title = ballad.title()
-    try:
-        supptrad = SuppTradFile.objects.get(parent=ballad)
-    except SuppTradFile.DoesNotExist:
-        supptrad = None
     context = {
-        'title': title,
-        'supptrad': supptrad,
         'ballad': ballad,
+        'title': ballad.title,
     }
+    try:
+        context['supptrad'] = SuppTradFile.objects.get(parent=ballad)
+    except SuppTradFile.DoesNotExist:
+        pass
     return render(request, 'ballad.html', context)
+
+
+def sitemap_view(request, start):
+    # TODO make these static
+    end = start + chr(126)
+    q = (BalladName.objects.filter(name__gte=start, name__lt=end)
+         .order_by('name'))
+    context = {'list': q}
+    return render(request, 'sitemap.xml', context, content_type='text/xml')
