@@ -5,13 +5,13 @@
     <div style="text-align:center;">{{ vols|safe }}</div>
   {% endif %}
 
-  {% if self.results %}
+  {% if results %}
     <div class="box info">
-      Results {{ self.start }} - {{ self.finish }} of
-      {{ self.num_results }} for {{ self.query }}.
+      Results {{ start }} - {{ finish }} of
+      {{ num_results }} for {{ query }}.
     </div>
   {% else %}
-    <div class="box error">No results for <b>{{ self.query }}</b>.</div>
+    <div class="box error">No results for <b>{{ query }}</b>.</div>
   {% endif %}
   
   <div style="float:right">
@@ -28,9 +28,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
   </div>
 
-  {% if self.results %}
+  {% if results %}
     <ul>
-      {% for ballad in self.results %}
+      {% for ballad in results %}
         <li><a href="{{ ballad.url }}">{{ ballad.title }}</a></li>
       {% endfor %}
     </ul>
@@ -38,9 +38,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   
   <div style="clear:both;"></div>
   
-  {% if self.pages %}
+  {% if pages %}
     <div class="box" style="text-align:center;">
-      {{ self.pages|safe }}
+      {{ pages|safe }}
     </div>
   {% endif %}
 {% endblock %}

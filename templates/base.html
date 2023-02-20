@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     {% block meta %}{% endblock %}
-    <title>{% if self.title %}{{ self.title }} - {% endif %}Folklorist</title>
+    <title>{% if title %}{{ title }} - {% endif %}Folklorist</title>
     
     <style type="text/css">
       body {
@@ -109,7 +109,7 @@
         <!-- search bar -->
         <span class="search">
           <form action="/search" method="get">
-            <input type="text" name="q" value="{{ self.query }}" id="search" />
+            <input type="text" name="q" value="{{ query }}" id="search" />
             <input type="submit" value="Search" />
           </form>
           
