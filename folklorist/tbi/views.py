@@ -22,13 +22,18 @@ def search_view(request):
     error = None
     pages = None
     finish = None
+    context = {
+        'query': query,
+        'error': error,
+        'info': info,
+    }
 
     if query:
         query = query.strip()
         title = 'Search for %s - Folklorist' % query
         results = BalladIndex.objects.all()
         words = query_to_words(query)
-        results = results.filter(index__contains=words)
+        results = results.filter(index__contains=words).order_by('name')
         num_results = results.count()
         offset = (page-1) * limit
         results = results[offset:offset+limit]
@@ -49,16 +54,15 @@ def search_view(request):
             # love!
             start = offset + 1
             finish = offset + limit
-    context = {
-        'results': results,
-        'pages': pages,
-        'start': start,
-        'finish': finish,
-        'num_results': num_results,
-        'query': query,
-        'error': error,
-        'info': info,
-    }
+            context.update({
+                'results': results,
+                'pages': pages,
+                'start': start,
+                'finish': finish,
+            })
+        context.update({
+            'num_results': num_results,
+        })
     return render(request, 'search.html', context)
 
 
