@@ -3,9 +3,8 @@ from urllib.parse import unquote
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
-from ballads.hacks import query_to_words
-
 from .models import Ballad, BalladIndex, BalladName, SuppTradFile
+from .utils import query_to_words
 
 
 def index_view(request):

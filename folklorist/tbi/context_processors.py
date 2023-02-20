@@ -1,4 +1,4 @@
-from ballads.hacks import alphabet
+from .utils import alphabet
 
 
 def alphanum_nav(request):
