@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-)jl_h00l)p_%9p0f+tw@m^c@ir%-il1oq3hw%w--e0lon=ghle
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'folklorist.dwyer.dev',
+    'folklorist.org',
+]
 
 
 # Application definition
