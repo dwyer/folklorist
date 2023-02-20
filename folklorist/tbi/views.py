@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+from ballads.hacks import alphabet
+
+
+
+def index_view(request):
+    context = {'vols': alphabet()}
+    return render(request, 'home.html', context)
