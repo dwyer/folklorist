@@ -4,6 +4,7 @@ from urllib.parse import unquote
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView, TemplateView
 
 from .mixins import TitleMixin
@@ -25,8 +26,7 @@ class SearchPage(TitleMixin, ListView):
         return self.request.GET.get('q')
 
     def get_search_query_tokens(self):
-        query = self.get_search_query()
-        query = query.lower()
+        query = self.get_search_query().lower()
         query = re.sub(r'[-/]', ' ', query)
         query = re.sub(r'[^\w\s\':]', '', query)
         return list(set(query.split()))
@@ -36,7 +36,7 @@ class SearchPage(TitleMixin, ListView):
 
     def get_page_url(self, page_number):
         search_query = self.get_search_query()
-        return '/search?q=%s&p=%s' % (search_query, page_number)
+        return '%s?q=%s&p=%s' % (reverse('search'), search_query, page_number)
 
     def get_queryset(self):
         tokens = self.get_search_query_tokens()
@@ -55,8 +55,8 @@ class SearchPage(TitleMixin, ListView):
             page_urls.append(
                 (self.get_page_url(page.next_page_number()), 'Next'))
         kwargs.update({
-            'query': search_query,
             'page_urls': page_urls,
+            'search_query': search_query,
         })
 
         return kwargs

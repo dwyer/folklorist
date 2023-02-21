@@ -1,54 +1,51 @@
 {% extends "base.html" %}
 {% block body %}
 
-  {% if page_obj.object_list %}
-  <div class="alert alert-info" role="alert">
-    Results {{page_obj.start_index}} - {{page_obj.end_index}} of
-    {{page_obj.paginator.count}} for {{query}}.
-  </div>
-  {% else %}
-  <div class="alert alert-danger" role="alert">
-    No results for <b>{{query}}</b>.
-  </div>
-  {% endif %}
-  
-  <div style="float:right">
-  <script type="text/javascript"><!--
-google_ad_client = "ca-pub-7316784774567539";
-/* Wide Skyscraper Text */
-google_ad_slot = "8453098981";
-google_ad_width = 160;
-google_ad_height = 600;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-  </div>
+{% if page_obj.object_list %}
+<div class="alert alert-info" role="alert">
+  Results {{page_obj.start_index}} - {{page_obj.end_index}} of
+  {{page_obj.paginator.count}} for {{search_query}}.
+</div>
+{% else %}
+<div class="alert alert-danger" role="alert">
+  No results for <b>{{search_query}}</b>.
+</div>
+{% endif %}
 
-  {% if page_obj.object_list %}
-  <div class="list-group">
-    {% for ballad in page_obj.object_list %}
-    <a class="list-group-item list-group-item-action" href="{{ ballad.url }}">
-      {{ ballad.title }}
-      {% if ballad.parent.parent.description %}
-      <span class="text-muted">
-        &mdash;
-        {{ballad.parent.parent.description|truncatechars:80}}
-      </span>
-      {% endif %}
-    </a>
+<div style="float:right">
+  <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-7316784774567539";
+    /* Wide Skyscraper Text */
+    google_ad_slot = "8453098981";
+    google_ad_width = 160;
+    google_ad_height = 600;
+    //-->
+  </script>
+  <script type="text/javascript"
+          src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  </script>
+</div>
+
+{% if page_obj.object_list %}
+<div class="list-group">
+  {% for ballad in page_obj.object_list %}
+  <a class="list-group-item list-group-item-action" href="{{ballad.url}}">
+    {{ballad.title}}
+    {% if ballad.parent.parent.description %}
+    <span class="text-muted">&mdash; {{ballad.parent.parent.description|truncatechars:80}}</span>
+    {% endif %}
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if page_urls %}
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    {% for url, text in page_urls %}
+    <li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>
     {% endfor %}
-  </div>
-  {% endif %}
-  
-  {% if page_urls %}
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      {% for url, text in page_urls %}
-      <li class="page_obj-item"><a class="page-link" href="{{url}}">{{text}}</a></li>
-      {% endfor %}
-    </ul>
-  </nav>
-  {% endif %}
+  </ul>
+</nav>
+{% endif %}
 {% endblock %}

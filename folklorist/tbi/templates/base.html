@@ -96,18 +96,21 @@
       <header class="blog-header lh-1 py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
+            <a class="blog-header-logo text-dark" href="{% url 'index' %}"><img src="/static/logo.png" alt="Folklorist" border="0" /></a>
             {% comment %}
             <a class="link-secondary" href="#">Subscribe</a>
             {% endcomment %}
           </div>
+          {% comment %}
           <div class="col-4 text-center">
             <a class="blog-header-logo text-dark" href="/"><img src="/static/logo.png" alt="Folklorist" border="0" /></a>
           </div>
+          {% endcomment %}
           <div class="col-4 d-flex justify-content-end align-items-center">
             <span class="search">
-              <form class="row" action="/search" method="GET">
+              <form class="row" action="{% url 'search' %}" method="GET">
                 <div class="col-10">
-                  <input class="form-control" type="search" name="q" value="{{ query }}" id="search" />
+                  <input class="form-control" type="search" name="q" value="{{search_query}}" id="search" />
                 </div>
                 <div class="col-2">
                   <button class="btn" type="submit">
