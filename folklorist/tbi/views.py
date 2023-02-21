@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView, TemplateView
 
+from .mixins import TitleMixin
 from .models import Ballad, BalladIndex, BalladName, SuppTradFile
 from .utils import query_to_words
 
@@ -13,7 +14,7 @@ class Index(TemplateView):
     template_name = 'home.html'
 
 
-class SearchPage(ListView):
+class SearchPage(TitleMixin, ListView):
     template_name = 'search.html'
     model = BalladIndex
     ordering = 'name'
@@ -22,6 +23,9 @@ class SearchPage(ListView):
 
     def get_search_query(self):
         return self.request.GET.get('q')
+
+    def get_title(self):
+        return 'Search for %s' % self.get_search_query()
 
     def get_page_url(self, page_number):
         search_query = self.get_search_query()
@@ -45,7 +49,6 @@ class SearchPage(ListView):
             page_urls.append(
                 (self.get_page_url(page.next_page_number()), 'Next'))
         kwargs.update({
-            'title': 'Search for %s - Folklorist' % search_query,
             'query': search_query,
             'page_urls': page_urls,
         })
@@ -53,7 +56,7 @@ class SearchPage(ListView):
         return kwargs
 
 
-class BalladDetail(DetailView):
+class BalladDetail(TitleMixin, DetailView):
     template_name = 'ballad.html'
     context_object_name = 'ballad'
 
@@ -64,14 +67,13 @@ class BalladDetail(DetailView):
         ballad = ballad_name.parent
         return ballad
 
+    def get_title(self):
+        return self.object.title
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        ballad = context['ballad']
-        context.update({
-            'title': ballad.title,
-        })
         try:
-            context['supptrad'] = SuppTradFile.objects.get(parent=ballad)
+            context['supptrad'] = SuppTradFile.objects.get(parent=self.object)
         except SuppTradFile.DoesNotExist:
             pass
         return context
