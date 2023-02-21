@@ -3,22 +3,21 @@ from urllib.parse import unquote
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from .models import Ballad, BalladIndex, BalladName, SuppTradFile
 from .utils import query_to_words
 
-PAGINATOR_LIMIT = 10
+
+class Index(TemplateView):
+    template_name = 'home.html'
 
 
-index_view = TemplateView.as_view(template_name='home.html')
-
-
-class Search(ListView):
+class SearchPage(ListView):
     template_name = 'search.html'
     model = BalladIndex
     ordering = 'name'
-    paginate_by = PAGINATOR_LIMIT
+    paginate_by = 10
     page_kwarg = 'p'
 
     def get_search_query(self):
@@ -54,25 +53,37 @@ class Search(ListView):
         return kwargs
 
 
-def ballad_view(request, encoded_title):
-    title = unquote(encoded_title.replace('_', ' '))
-    ballad_name = get_object_or_404(BalladName, title=title)
-    ballad = ballad_name.parent
-    context = {
-        'ballad': ballad,
-        'title': ballad.title,
-    }
-    try:
-        context['supptrad'] = SuppTradFile.objects.get(parent=ballad)
-    except SuppTradFile.DoesNotExist:
-        pass
-    return render(request, 'ballad.html', context)
+class BalladDetail(DetailView):
+    template_name = 'ballad.html'
+    context_object_name = 'ballad'
+
+    def get_object(self):
+        encoded_title = self.kwargs['encoded_title']
+        title = unquote(encoded_title.replace('_', ' '))
+        ballad_name = get_object_or_404(BalladName, title=title)
+        ballad = ballad_name.parent
+        return ballad
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ballad = context['ballad']
+        context.update({
+            'title': ballad.title,
+        })
+        try:
+            context['supptrad'] = SuppTradFile.objects.get(parent=ballad)
+        except SuppTradFile.DoesNotExist:
+            pass
+        return context
 
 
-def sitemap_view(request, start):
-    # TODO make these static
-    end = start + chr(126)
-    q = (BalladName.objects.filter(name__gte=start, name__lt=end)
-         .order_by('name'))
-    context = {'list': q}
-    eturn render(request, 'sitemap.xml', context, content_type='text/xml')
+class SitemapPage(ListView):
+    model = BalladName
+    ordering = 'name'
+    template_name = 'sitemap.xml'
+    content_type = 'text/xml'
+
+    def get_queryset(self):
+        start = self.kwargs['start']
+        end = start + chr(126)
+        return super().get_queryset().filter(name__gte=start, name__lt=end)

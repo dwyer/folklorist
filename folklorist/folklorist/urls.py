@@ -1,13 +1,14 @@
 from django.conf import settings
 from django.urls import path
+from django.views.generic import TemplateView
 
-from tbi.views import Search, ballad_view, index_view, sitemap_view
+from tbi.views import BalladDetail, Index, SearchPage, SitemapPage
 
 urlpatterns = [
-    path('song/<encoded_title>', ballad_view),
-    path('sitemaps/<start>.xml', sitemap_view),
-    path('search', Search.as_view(), name='search'),
-    path('', index_view),
+    path('', Index.as_view(), name='index'),
+    path('search', SearchPage.as_view(), name='search'),
+    path('song/<encoded_title>', BalladDetail.as_view(), name='ballad_detail'),
+    path('sitemaps/<start>.xml', SitemapPage.as_view()),
 ]
 
 if settings.DEBUG:
