@@ -1,10 +1,14 @@
 from urllib.parse import unquote
 
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
+
 from .models import Ballad, BalladIndex, BalladName, SuppTradFile
 from .utils import query_to_words
+
+PAGINATOR_LIMIT = 10
 
 
 def index_view(request):
@@ -12,56 +16,34 @@ def index_view(request):
 
 
 def search_view(request):
-    limit = 30
 
     query = request.GET.get('q')
-    page = int(request.GET.get('p', 1))
-    start = int(request.GET.get('start', 1))
+    page_number = int(request.GET.get('p', 1))
+    # start = int(request.GET.get('start', 1))
 
-    info = None
-    error = None
-    pages = None
-    finish = None
     context = {
         'query': query,
-        'error': error,
-        'info': info,
     }
+
+    def get_page_url(page_number):
+        return '/search?q=%s&p=%s' % (query, page_number)
 
     if query:
         query = query.strip()
-        title = 'Search for %s - Folklorist' % query
         results = BalladIndex.objects.all()
         words = query_to_words(query)
         results = results.filter(index__contains=words).order_by('name')
-        num_results = results.count()
-        offset = (page-1) * limit
-        results = results[offset:offset+limit]
-
-        if results:
-            # pagination
-            pages = []
-            if page > 1:
-                pages.append((
-                    '/search?q=%s&p=%d' % (query, page-1),
-                    'Previous',
-                ))
-            if len(results) == limit:
-                pages.append((
-                    "/search?q=%s&p=%d" % (query, page+1),
-                    'Next',
-                ))
-            # love!
-            start = offset + 1
-            finish = offset + limit
-            context.update({
-                'results': results,
-                'pages': pages,
-                'start': start,
-                'finish': finish,
-            })
+        paginator = Paginator(results, PAGINATOR_LIMIT)
+        page = paginator.page(page_number)
+        page_urls = []
+        if page.has_previous():
+            page_urls.append((get_page_url(page.previous_page_number()), 'Previous'))
+        if page.has_previous():
+            page_urls.append((get_page_url(page.next_page_number()), 'Next'))
         context.update({
-            'num_results': num_results,
+            'page_obj': page,
+            'page_urls': page_urls,
+            'title': 'Search for %s - Folklorist' % query,
         })
     return render(request, 'search.html', context)
 

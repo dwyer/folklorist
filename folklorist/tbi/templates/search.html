@@ -2,16 +2,18 @@
 {% block body %}
 
   {% if vols %}
-    <div style="text-align:center;">{{ vols|safe }}</div>
+  <div style="text-align:center;">{{ vols|safe }}</div>
   {% endif %}
 
-  {% if results %}
-    <div class="box info">
-      Results {{ start }} - {{ finish }} of
-      {{ num_results }} for {{ query }}.
-    </div>
+  {% if page_obj.object_list %}
+  <div class="alert alert-info" role="alert">
+    Results {{page_obj.start_index}} - {{page_obj.end_index}} of
+    {{page_obj.paginator.count}} for {{query}}.
+  </div>
   {% else %}
-    <div class="box error">No results for <b>{{ query }}</b>.</div>
+  <div class="alert alert-danger" role="alert">
+    No results for <b>{{query}}</b>.
+  </div>
   {% endif %}
   
   <div style="float:right">
@@ -28,21 +30,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
   </div>
 
-  {% if results %}
+  {% if page_obj.object_list %}
   <ul class="list-group">
-    {% for ballad in results %}
+    {% for ballad in page_obj.object_list %}
     <li class="list-group-item"><a href="{{ ballad.url }}">{{ ballad.title }}</a></li>
     {% endfor %}
   </ul>
   {% endif %}
   
-  <div style="clear:both;"></div>
-  
-  {% if pages %}
+  {% if page_urls %}
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
-      {% for url, text in pages %}
-      <li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>
+      {% for url, text in page_urls %}
+      <li class="page_obj-item"><a class="page-link" href="{{url}}">{{text}}</a></li>
       {% endfor %}
     </ul>
   </nav>
