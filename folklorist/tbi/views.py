@@ -1,3 +1,4 @@
+import re
 from urllib.parse import unquote
 
 from django.core.paginator import Paginator
@@ -7,7 +8,6 @@ from django.views.generic import DetailView, ListView, TemplateView
 
 from .mixins import TitleMixin
 from .models import Ballad, BalladIndex, BalladName, SuppTradFile
-from .utils import query_to_words
 
 
 class Index(TemplateView):
@@ -24,6 +24,13 @@ class SearchPage(TitleMixin, ListView):
     def get_search_query(self):
         return self.request.GET.get('q')
 
+    def get_search_query_tokens(self):
+        query = self.get_search_query()
+        query = query.lower()
+        query = re.sub(r'[-/]', ' ', query)
+        query = re.sub(r'[^\w\s\':]', '', query)
+        return list(set(query.split()))
+
     def get_title(self):
         return 'Search for %s' % self.get_search_query()
 
@@ -32,9 +39,8 @@ class SearchPage(TitleMixin, ListView):
         return '/search?q=%s&p=%s' % (search_query, page_number)
 
     def get_queryset(self):
-        search_query = self.get_search_query()
-        words = query_to_words(search_query)
-        return super().get_queryset().filter(index__contains=words)
+        tokens = self.get_search_query_tokens()
+        return super().get_queryset().filter(index__contains=tokens)
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)

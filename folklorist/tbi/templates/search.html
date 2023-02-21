@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
 
-  {% if vols %}
-  <div style="text-align:center;">{{ vols|safe }}</div>
-  {% endif %}
-
   {% if page_obj.object_list %}
   <div class="alert alert-info" role="alert">
     Results {{page_obj.start_index}} - {{page_obj.end_index}} of
