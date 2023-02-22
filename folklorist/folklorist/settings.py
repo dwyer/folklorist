@@ -148,10 +148,5 @@ LOGGING = {
             'level': 'WARNING',
             'propagate': True,
         },
-        'django': {
-            'handlers': ['file'],
-            'level': 'WARNING',
-            'propagate': True,
-        },
     },
 }
