@@ -1,4 +1,0 @@
-TODO:
-Parse new database.
-Upload new database.
-Use Django pagination.
