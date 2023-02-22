@@ -69,7 +69,10 @@ class BalladDetail(TitleMixin, DetailView):
     def get_object(self):
         encoded_title = self.kwargs['encoded_title']
         title = unquote(encoded_title.replace('_', ' '))
-        ballad_name = get_object_or_404(BalladName, title=title)
+        try:
+            ballad_name = get_object_or_404(BalladName, title=title)
+        except BalladName.MultipleObjectsReturned:
+            ballad_name = BalladName.objects.filter(title=title)[0]
         ballad = ballad_name.parent
         return ballad
 
