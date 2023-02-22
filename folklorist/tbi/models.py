@@ -4,10 +4,7 @@ import urllib.parse
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
-
-def title_quote(text):
-    safe = '/()\','
-    return urllib.parse.quote(text.replace(' ', '_'), safe=safe)
+from .utils import title_quote
 
 
 class IndexableCharField(models.CharField):

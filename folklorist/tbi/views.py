@@ -1,5 +1,4 @@
 import re
-from urllib.parse import unquote
 
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -9,6 +8,7 @@ from django.views.generic import DetailView, ListView, TemplateView
 
 from .mixins import TitleMixin
 from .models import Ballad, BalladIndex, BalladName, SuppTradFile
+from .utils import title_unquote
 
 
 class Index(TemplateView):
@@ -67,10 +67,9 @@ class BalladDetail(TitleMixin, DetailView):
     context_object_name = 'ballad'
 
     def get_object(self):
-        encoded_title = self.kwargs['encoded_title']
-        title = unquote(encoded_title.replace('_', ' '))
+        title = title_unquote(self.kwargs['encoded_title'])
         try:
-            ballad_name = get_object_or_404(BalladName, title=title)
+            ballad_name = get_object_or_404(BalladName, title__iexact=title)
         except BalladName.MultipleObjectsReturned:
             ballad_name = BalladName.objects.filter(title=title)[0]
         ballad = ballad_name.parent
