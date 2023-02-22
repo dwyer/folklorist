@@ -1,19 +1,17 @@
 {% extends "base.html" %}
 
 {% block meta %}
-  <meta name="description" content="{{ballad.description|escape}}" />
+<meta name="description" content="{{ballad.description|escape}}" />
 {% endblock %}
 
 {% block body %}
 
-{% if error %}<div class="box error">{{ error }}</div>{% endif %}
+{% if error %}<div class="alert alert-danger">{{error}}</div>{% endif %}
 
 <div class="row g-5">
   <div class="col-md-8">
 
-    {% if ballad.title %}
-    <h2 class="blog-post-title mb-1">&#8220;{{ ballad.title }}&#8221;</h2>
-    {% endif %}
+    <h2 class="blog-post-title mb-1">&#8220;{{ballad.title}}&#8221;</h2>
 
     {% comment %}
     <p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
@@ -32,9 +30,10 @@
     {% if ballad.scorex %}
     <h3>Words and music</h3>
     <div class="box">
-      <div style="text-align:center;"><img src="{{ ballad.score }}" alt="{{ ballad.title }}" /></div>
+      <div style="text-align:center;"><img src="{{ballad.score}}" alt="{{ballad.title}}" /></div>
       <div>{{ ballad.lyrics|linebreaks }}</div>
-      <div style="font-size:small;text-align:right;">Words and music courtesy of <a href="http://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
+      <div style="font-size:small;text-align:right;">Words and music courtesy of
+        <a href="https://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
     </div>
     {% endif %}
 
@@ -183,19 +182,4 @@
     </div>
   </div>
 </div>
-  
-<center>
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-7316784774567539";
-/* Leaderboard */
-google_ad_slot = "9870461787";
-google_ad_width = 728;
-google_ad_height = 90;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</center>
-
 {% endblock %}
