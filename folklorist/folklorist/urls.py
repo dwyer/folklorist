@@ -7,7 +7,7 @@ from tbi.views import BalladDetail, Index, SearchPage, SitemapPage
 urlpatterns = [
     path('', Index.as_view(), name='index'),
     path('search', SearchPage.as_view(), name='search'),
-    path('song/<encoded_title>', BalladDetail.as_view(), name='ballad_detail'),
+    path('song/<path:encoded_title>', BalladDetail.as_view(), name='ballad_detail'),
     path('sitemaps/<start>.xml', SitemapPage.as_view()),
 ]
 

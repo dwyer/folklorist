@@ -1,7 +1,13 @@
 import re
+import urllib.parse
 
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+
+
+def title_quote(text):
+    safe = '/()\','
+    return urllib.parse.quote(text.replace(' ', '_'), safe=safe)
 
 
 class IndexableCharField(models.CharField):
@@ -38,12 +44,8 @@ class Ballad(models.Model):
         title = re.sub(r'^(.*), (%s) (\(.*\))$' % articles, r'\2 \1 \3', title)
         return title
 
-    def urlencoded_title(self):
-        return (self.title().replace(' ', '_').replace('"', '%22')
-                .replace(';', '%3B'))
-
     def url(self):
-        return '/song/%s' % self.urlencoded_title()
+        return '/song/' + title_quote(self.title())
 
     def index(self):
         title = self.title().lower()
@@ -113,11 +115,7 @@ class BalladName(models.Model):
     parent = models.ForeignKey(Ballad, on_delete=models.CASCADE, null=True)
 
     def url(self):
-        return '/song/%s' % (self.title.replace(' ', '_')
-                             .replace('"', '%22')
-                             .replace('&', '%26')
-                             .replace(';', '%3B')
-                             .replace('?', '%3F'))
+        return '/song/' + title_quote(self.title)
 
 
 class BalladIndex(models.Model):
@@ -135,12 +133,7 @@ class BalladIndex(models.Model):
         return title
 
     def url(self):
-        return '/song/%s' % (self.title()
-                             .replace(' ', '_')
-                             .replace('"', '%22')
-                             .replace('&', '%26')
-                             .replace(';', '%3B')
-                             .replace('?', '%3F'))
+        return '/song/' + title_quote(self.title())
 
 
 class SuppTradFile(models.Model):

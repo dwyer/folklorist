@@ -23,7 +23,7 @@ class SearchPage(TitleMixin, ListView):
     page_kwarg = 'p'
 
     def get_search_query(self):
-        return self.request.GET.get('q')
+        return self.request.GET.get('q', '')
 
     def get_search_query_tokens(self):
         query = self.get_search_query().lower()
