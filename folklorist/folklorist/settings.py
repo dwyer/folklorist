@@ -29,6 +29,10 @@ ALLOWED_HOSTS = [
     'folklorist.dwyer.dev',
 ]
 
+INTERNAL_IPS = (
+    '127.0.0.1',
+)
+
 
 # Application definition
 
