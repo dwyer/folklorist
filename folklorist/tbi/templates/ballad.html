@@ -11,99 +11,99 @@
 <div class="row g-5">
   <div class="col-md-8">
 
-    <h2 class="blog-post-title mb-1">&#8220;{{ballad.title}}&#8221;</h2>
-
-    {% comment %}
-    <p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
-    {% endcomment %}
-
-    {% if ballad.description %}
-    <h3>Description</h3>
-    <p>{{ ballad.description|linebreaks }}</p>
-    {% endif %}
-
-    {% if supptrad %}
-    <h3>Supplemental text</h3>
-    <pre>{{supptrad.text}}</pre>
-    {% endif %}
-
-    {% if ballad.scorex %}
-    <h3>Words and music</h3>
-    <div class="box">
-      <div style="text-align:center;"><img src="{{ballad.score}}" alt="{{ballad.title}}" /></div>
-      <div>{{ ballad.lyrics|linebreaks }}</div>
-      <div style="font-size:small;text-align:right;">Words and music courtesy of
-        <a href="https://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
-    </div>
-    {% endif %}
-
-    {% if ballad.long_description %}
-    <h3>Long description</h3>
-    <p>{{ ballad.long_description|linebreaks }}</p>
-    {% endif %}
-
-    {% if ballad.notes %}
-    <h3>Notes</h3>
-    {% for line in ballad.notes.splitlines %}
-    <p>{{line}}</p>
-    {% endfor %}
-    {% endif %}
-
-    {% if ballad.historical_references %}
-    <h3>Historical references</h3>
-    <ul>
-      {% for item in ballad.historical_references %}
-      <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if ballad.same_tune %}
-    <h3>Same tune</h3>
-    <ul>
-      {% for item in ballad.same_tune %}
-      <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if ballad.cross_references %}
-    <h3>Cross references</h3>
-    <ul>
-      {% for item in ballad.cross_references_ex %}
-      <li>{{ item|safe }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if ballad.broadsides %}
-    <h3>Broadsides</h3>
-    <ul>
-      {% for item in ballad.broadsides %}
-      <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if ballad.recordings %}
-    <h3>Recordings</h3>
-    <ul>
-      {% for item in ballad.recordings %}
-      <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if ballad.references %}
-    <h3>References</h3>
-    <ol>
-      {% for item in ballad.references %}
-      <li>{{ item }}</li>
-      {% endfor %}
-      <li>BI, {{ ballad.file }}</li>
-    </ol>
-    {% endif %}
     <article class="blog-post">
+      <h2 class="blog-post-title mb-1">&#8220;{{ballad.title}}&#8221;</h2>
+
+      {% comment %}
+      <p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
+      {% endcomment %}
+
+      {% if ballad.description %}
+      <h3>Description</h3>
+      <p>{{ ballad.description|linebreaks }}</p>
+      {% endif %}
+
+      {% if supptrad %}
+      <h3>Supplemental text</h3>
+      <pre>{{supptrad.text}}</pre>
+      {% endif %}
+
+      {% if ballad.scorex %}
+      <h3>Words and music</h3>
+      <div class="box">
+        <div style="text-align:center;"><img src="{{ballad.score}}" alt="{{ballad.title}}" /></div>
+        <div>{{ ballad.lyrics|linebreaks }}</div>
+        <div style="font-size:small;text-align:right;">Words and music courtesy of
+          <a href="https://www.mudcat.org/" target="_blank">Mudcat</a> and <a href="http://sniff.numachi.com/" target="_blank">Yet Another Digital Tradition Mirror</a>.</div>
+      </div>
+      {% endif %}
+
+      {% if ballad.long_description %}
+      <h3>Long description</h3>
+      <p>{{ ballad.long_description|linebreaks }}</p>
+      {% endif %}
+
+      {% if ballad.notes %}
+      <h3>Notes</h3>
+      {% for line in ballad.notes.splitlines %}
+      <p>{{line}}</p>
+      {% endfor %}
+      {% endif %}
+
+      {% if ballad.historical_references %}
+      <h3>Historical references</h3>
+      <ul>
+        {% for item in ballad.historical_references %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if ballad.same_tune %}
+      <h3>Same tune</h3>
+      <ul>
+        {% for item in ballad.same_tune %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if ballad.cross_references %}
+      <h3>Cross references</h3>
+      <ul>
+        {% for item in ballad.cross_references_ex %}
+        <li>{{ item|safe }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if ballad.broadsides %}
+      <h3>Broadsides</h3>
+      <ul>
+        {% for item in ballad.broadsides %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if ballad.recordings %}
+      <h3>Recordings</h3>
+      <ul>
+        {% for item in ballad.recordings %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if ballad.references %}
+      <h3>References</h3>
+      <ol>
+        {% for item in ballad.references %}
+        <li>{{ item }}</li>
+        {% endfor %}
+        <li>BI, {{ ballad.file }}</li>
+      </ol>
+      {% endif %}
     </article>
 
     <!-- <nav class="blog-pagination" aria-label="Pagination"> -->
@@ -147,6 +147,21 @@
           {% endif %}
 
         </p>
+      </div>
+
+      <div class="p-4">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7316784774567539"
+                      crossorigin="anonymous"></script>
+        <!-- Folklorist Sidebar -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7316784774567539"
+             data-ad-slot="8453098981"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       </div>
 
       {% comment %}
