@@ -1,18 +1,17 @@
-URLs to troubleshoot:
-404 https://folklorist.dwyer.dev/song/The_Shannon_Side
-404 https://folklorist.dwyer.dev/song/Old_Ireland_I_Adore
-404 https://folklorist.dwyer.dev/song/The_Mantle_So_Green
-404 https://folklorist.dwyer.dev/song/I_Wouldn't_Marry_an_Old_Maid
-404 https://folklorist.dwyer.dev/song/Lord_Ingram_and_Chiel_Wyet
-404 https://folklorist.dwyer.dev/song/Step_It_Away
-404 https://folklorist.dwyer.dev/song/The_Minstrel_Boy
-404 https://folklorist.dwyer.dev/song/The_Moonshine_Steer
-404 https://folklorist.dwyer.dev/song/Thyme,_It_Is_a_Precious_Thing
-404 https://folklorist.dwyer.dev/song/Waltz_the_Hall
-404 https://folklorist.dwyer.dev/song/John_Anderson,_My_Jo_(I)
-404 https://folklorist.dwyer.dev/song/Guy_Reed
-404 https://folklorist.dwyer.dev/song/Crows_in_the_Garden
-404 https://folklorist.dwyer.dev/song/Sale_of_a_Wife
-404 https://folklorist.dwyer.dev/song/Shady_Grove
-404 https://folklorist.dwyer.dev/song/The_Two_Cormacks_Who_Died_Innocent_in_Front_of_Nenagh_Gaol
-404 https://folklorist.dwyer.dev/song/Shannon's_Flowery_Banks
+Crows_in_the_Garden
+Guy_Reed
+I_Wouldn't_Marry_an_Old_Maid
+John_Anderson,_My_Jo_(I)
+Lord_Ingram_and_Chiel_Wyet
+Old_Ireland_I_Adore
+Sale_of_a_Wife
+Shady_Grove
+Shannon's_Flowery_Banks
+Step_It_Away
+The_Mantle_So_Green
+The_Minstrel_Boy
+The_Moonshine_Steer
+The_Shannon_Side
+The_Two_Cormacks_Who_Died_Innocent_in_Front_of_Nenagh_Gaol
+Thyme,_It_Is_a_Precious_Thing
+Waltz_the_Hall
